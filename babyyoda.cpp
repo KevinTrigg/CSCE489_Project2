@@ -114,7 +114,7 @@ void *consumer_routine(void *data) {   //void* shelfSize
           pthread_mutex_unlock(&shelf_buffers[i]); //unlock the shelf
           
         }
-      usleep((useconds_t) (rand() % (timeInterval*25))); // checkout at the register takes time
+      usleep((useconds_t) (rand() % (timeInterval))); // checkout at the register takes time
       full->signal(); // a new shelf has become open
        
      
