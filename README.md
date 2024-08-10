@@ -1,6 +1,6 @@
 # AFIT-CSCE489-PROJ2 -KevinTrigg
 Project 2 is a single producer multi-consumer program that produces an input number of yoda toys that each take up one space on an input number of shelves while an input number of consumers rush to remove these toys off the shelves. This program prints the current actions of the threads to the terminal for the user to watch.  
-Occasionally race conditions break a consumer thread and they get stuck at "Consumer X wants to buy a yoda..." when a large number of consumers and items are processed. I could not figure out why this race happens or how to stop it... If you don't see it, it must not exist.
+Occasionally race conditions break a consumer thread and they get stuck at "Consumer X wants to buy a yoda..." when a large number of consumers and items are processed. I could not figure out why this race happens (possibly the thread is swapped out after it exits wait and doesn't properly complete the critical code to examine each shelf?) or how to stop it... If you don't see it, it must not exist.
 
 ## Instructions for running babyyoda
 
