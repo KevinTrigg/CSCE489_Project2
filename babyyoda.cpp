@@ -100,7 +100,7 @@ void *consumer_routine(void *data) {   //void* shelfSize
         
         for(int i=0;i<bufferSize;i++){  //go through all the shelves
           pthread_mutex_lock(&shelf_buffers[i]);// lock the shelf
-          printf("Consumer %d examined shelf %d.\n",consumerNum,i); 
+         // printf("Consumer %d examined shelf %d.\n",consumerNum,i); 
           if (shelves[i]!=0){ // if the shelf has contents
            // pthread_mutex_lock(&shelf_buffers[i]);// lock the shelf
             printf("Consumer %d bought Yoda #%d from shelf %d.\n",consumerNum, shelves[i],i); //print to user
