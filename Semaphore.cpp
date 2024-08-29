@@ -44,10 +44,11 @@ Semaphore::~Semaphore() {
 void Semaphore::wait() {  //enter queue for resource
  //sem_wait(&this->sem);
  pthread_mutex_lock(&mutex); // nothing else should use this while another is using it
- if(this->count<=0){ //while there is no open slot
+ this->count--;//take one from the open slot
+ if(this->count<0){ //while there is no open slot
    pthread_cond_wait(&condition,&mutex); //wait for the condition to be fulfilled
   } //while broken when there's an open slot
-  this->count--;//take one from the open slot
+
   pthread_mutex_unlock(&mutex); //release the lock so others can operate when gone
 }
 
@@ -61,7 +62,7 @@ void Semaphore::signal() { //signal end of use of the resource
   //sem_post(&this->sem);
   pthread_mutex_lock(&mutex);// lock the semaphore down while in use
   this->count++; //increment the count when resource is given up
-  if(this->count>0){
+  if(this->count<=0){
     pthread_cond_signal(&condition);
   }
   pthread_mutex_unlock(&mutex); //release the lock so others can operate when gone
