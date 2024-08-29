@@ -61,16 +61,17 @@ void *producer_routine(void *data) {//,void *shelfSizepthread_join
                         serialnum++;  //increment for the next toy
                         left_to_produce--; //one less to place
                         pthread_mutex_unlock(&shelf_buffers[i]); //unlock the shelf
+								// Semaphore signal that there are items available
+						empty->signal();
+
+						// random sleep but he makes them fast so 1/20 of a second
+						usleep((useconds_t) (rand() % (timeInterval/20)));
                         break; //if we find a spot to place we don't need to keep going through the shelves
                       } 
                       
                 } //while full is >1 (wait canceled) there IS a spot open      
                 	
-		// Semaphore signal that there are items available
-		empty->signal();
 
-		// random sleep but he makes them fast so 1/20 of a second
-		usleep((useconds_t) (rand() % (timeInterval/20)));
 	}
 	return NULL;
 }
@@ -108,14 +109,15 @@ void *consumer_routine(void *data) {   //void* shelfSize
             consumed++;//increment number consumed
            // printf("consumed %d items\n",consumed);
             pthread_mutex_unlock(&shelf_buffers[i]); //unlock the shelf
+			usleep((useconds_t) (rand() % (timeInterval))); // checkout at the register takes time
+     		full->signal(); // a new shelf has become open
             break; 
             //if you find a toy you don't greedily take EVERY toy on the shelves (unless you still have focus and go a second time around)
           } 
           pthread_mutex_unlock(&shelf_buffers[i]); //unlock the shelf
           
         }
-      usleep((useconds_t) (rand() % (timeInterval))); // checkout at the register takes time
-      full->signal(); // a new shelf has become open
+
        
      
       }
